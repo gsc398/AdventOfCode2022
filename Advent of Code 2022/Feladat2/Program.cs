@@ -3,36 +3,30 @@
 
 //Filebol adat
 var lines = File.ReadAllLines("input.txt");
-var firstMoveOpponentListString = new List<string>();
-var firstMoveOpponentListPointValue = new List<int>();
-var secondMoveOwnListString = new List<string>();
-var secondMoveOwnListPointValue = new List<int>();
+var opponentListPointValue = new List<int>();
+var ownListPointValue = new List<int>();
 foreach (string line in lines)
 {
     var charactersInCurrentLine = line.ToCharArray();
-    firstMoveOpponentListString.Add(charactersInCurrentLine[0].ToString());
-    secondMoveOwnListString.Add(charactersInCurrentLine[2].ToString());
-    if (line[0] == 'A') firstMoveOpponentListPointValue.Add(1);
-    if (line[0] == 'B') firstMoveOpponentListPointValue.Add(2);
-    if (line[0] == 'C') firstMoveOpponentListPointValue.Add(3);
-    if (line[2] == 'X') secondMoveOwnListPointValue.Add(1);
-    if (line[2] == 'Y') secondMoveOwnListPointValue.Add(2);
-    if (line[2] == 'Z') secondMoveOwnListPointValue.Add(3);
+    if (line[0] == 'A') opponentListPointValue.Add(1);
+    if (line[0] == 'B') opponentListPointValue.Add(2);
+    if (line[0] == 'C') opponentListPointValue.Add(3);
+    if (line[2] == 'X') ownListPointValue.Add(1);
+    if (line[2] == 'Y') ownListPointValue.Add(2);
+    if (line[2] == 'Z') ownListPointValue.Add(3);
 }
 
 //Adatbol eredmeny
 int myPointsForSymbol=0;
 int myPointsForOutcome=0;
-int myTotalScore=0;
-for (int i = 0; i< firstMoveOpponentListPointValue.Count; i++)
+for (int i = 0; i< opponentListPointValue.Count; i++)
 {
-    myPointsForSymbol += secondMoveOwnListPointValue[i];
-    myPointsForOutcome += MyParse(firstMoveOpponentListPointValue[i], secondMoveOwnListPointValue[i]);
+    myPointsForSymbol += ownListPointValue[i];
+    myPointsForOutcome += MyParse(opponentListPointValue[i], ownListPointValue[i]);
 }
-myTotalScore = myPointsForOutcome + myPointsForSymbol;
+int myTotalScore = myPointsForOutcome + myPointsForSymbol;
 
 Console.WriteLine("MyTotalScore " + myTotalScore);
-
 
 int MyParse(int opponentMove, int ownMove)
 {
@@ -43,5 +37,36 @@ int MyParse(int opponentMove, int ownMove)
     if (opponentMove == 2 && ownMove == 3) return 6;
     if (opponentMove == 3 && ownMove == 1) return 6;
     if (opponentMove == 3 && ownMove == 2) return 0;
-    return 99999;
+    throw new ArgumentException();
 }
+
+//Masodik feladat
+for (int i = 0; i < opponentListPointValue.Count; i++)
+{
+    int winDrawLooseSelector = ownListPointValue[i];
+    if (winDrawLooseSelector == 2) ownListPointValue[i] = opponentListPointValue[i];
+    if (winDrawLooseSelector == 1)
+    {
+        if (opponentListPointValue[i] == 1) ownListPointValue[i] = 3;
+        if (opponentListPointValue[i] == 2) ownListPointValue[i] = 1;
+        if (opponentListPointValue[i] == 3) ownListPointValue[i] = 2;
+    }
+    if (winDrawLooseSelector == 3)
+    {
+        if (opponentListPointValue[i] == 1) ownListPointValue[i] = 2;
+        if (opponentListPointValue[i] == 2) ownListPointValue[i] = 3;
+        if (opponentListPointValue[i] == 3) ownListPointValue[i] = 1;
+    }
+
+}
+
+myPointsForSymbol = 0;
+myPointsForOutcome = 0;
+for (int i = 0; i < opponentListPointValue.Count; i++)
+{
+    myPointsForSymbol += ownListPointValue[i];
+    myPointsForOutcome += MyParse(opponentListPointValue[i], ownListPointValue[i]);
+}
+myTotalScore = myPointsForOutcome + myPointsForSymbol;
+
+Console.WriteLine("MyTotalScore New" + myTotalScore);
