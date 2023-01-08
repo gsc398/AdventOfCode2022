@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day01CalorieCounting", "Day01CalorieCounting\Day01CalorieCounting.csproj", "{EFAA55BC-CDB0-496D-8DAF-B812CE174E4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feladat2", "Feladat2\Feladat2.csproj", "{AA073379-8F0A-4FFC-96E6-09E39DD728F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EFAA55BC-CDB0-496D-8DAF-B812CE174E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFAA55BC-CDB0-496D-8DAF-B812CE174E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFAA55BC-CDB0-496D-8DAF-B812CE174E4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA073379-8F0A-4FFC-96E6-09E39DD728F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA073379-8F0A-4FFC-96E6-09E39DD728F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA073379-8F0A-4FFC-96E6-09E39DD728F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA073379-8F0A-4FFC-96E6-09E39DD728F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

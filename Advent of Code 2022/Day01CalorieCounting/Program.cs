@@ -25,7 +25,7 @@ foreach (var sor in sorok)
         continue;
     }
     int Mat = int.Parse(sor);
-    AktuellDvergMat = AktuellDvergMat + Mat;
+    //AktuellDvergMat = AktuellDvergMat + Mat;
 
 }
 if (AktuellDvergMat != 0)
