@@ -38,5 +38,10 @@ namespace Day3
             return toReturn;
         }
 
+        public string EntireBackPacksContents(int index)
+        {
+            string backPackContents = File.ReadLines(FileName).Skip(index).First();
+            return backPackContents;
+        }
     }
 }

@@ -3,7 +3,7 @@ using Day3;
 
 
 //Global
-string fileName = new("ex.txt");
+string fileName = new("input.txt");
 
 
 MyStringAccessor MyAccessor = new MyStringAccessor(fileName);
@@ -19,16 +19,39 @@ for (int currentBackPack = 0; currentBackPack < MyAccessor.NumberOfBackpacks; cu
     }
 }
 
-int prioritySum = 0;
-foreach(char itemToPrioritize in repeatedItemList)
+int CalculatePrioritySums(string itemList)
 {
-    if (itemToPrioritize > 96)
-        prioritySum += itemToPrioritize - 96;
-    else
-        prioritySum += itemToPrioritize - 64 + 26;
+    int prioritySum = 0;
+    foreach (char itemToPrioritize in itemList)
+    {
+        if (itemToPrioritize > 96)
+            prioritySum += itemToPrioritize - 96;
+        else
+            prioritySum += itemToPrioritize - 64 + 26;
+    }
+    return prioritySum;
 }
 
-Console.WriteLine("Sum priority = " + prioritySum);
+Console.WriteLine("Sum priority = " + CalculatePrioritySums(repeatedItemList));
+
+string badgeList = "";
+for (int groupOfThree = 0; groupOfThree < (MyAccessor.NumberOfBackpacks - 2); groupOfThree += 3)
+{
+    foreach(char itemToCheck in MyAccessor.EntireBackPacksContents(groupOfThree))
+    {
+        if (MyAccessor.EntireBackPacksContents(groupOfThree + 1).Contains(itemToCheck) && MyAccessor.EntireBackPacksContents(groupOfThree + 2).Contains(itemToCheck))
+        {
+            badgeList += itemToCheck; break;
+        }
+    }
+}
+
+
+Console.WriteLine("Badges: " + badgeList);
+Console.WriteLine("Sum of badge priorities: "+ CalculatePrioritySums(badgeList));
+
+
+//File.ReadLines().ElementAt(0);
 
 //Test section
 /*while(true)
