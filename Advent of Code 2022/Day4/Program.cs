@@ -3,25 +3,9 @@
 
 using System.Collections.Immutable;
 
-//IReadOnlyList<string> fileContents = new List<string>();
-//fileContents = (IReadOnlyList<string>)File.ReadLines("ex.txt");
-
-//var fileContents = new List<string>();
-//fileContents = (List<string>)File.ReadLines("ex.txt");
-
 var fileContents = File.ReadAllLines("input.txt");
-//Kozben megtalaltam a neten, hogy hogy lehet belole listat csinalni, es persze en vagyok a hulye, primitiv egyszeru. ...de valoszinu sosem jottem volna most ra.
-//Viszont ugye rajottem kozben, hogy mar nem is emlekszem, hogy miert mondtad, hogy hasznaljak listat, szoval mostmar mindegy, mert ugysem arra hasznalnam amire kellene. Jo lesz a tomb is. 
-//Probaltam a var ele-utan irni readonly-t de sehol nem volt neki jo. Gondoltam 'szepen' csinalom, de ez is mindegy. 
 
-//Na, most azon gondolkodom, hogy a feneben tudom szetszedni a sort 2 stringre, ahol mind a kettore kulon szuksegem van. Megintcsak emlekszem, hogy tanitottal valamit
-//a ket visszatereses valamikrol, de semmi nincs mar meg belole, hogy hogy volt. (Meg errol eszembe jutott, hogy volt valami 'out' is, de mar azt sem tudom, mire volt jo. 
-
-//Oke, vicces, ugyanugy kell csinalni, mint ahogy listat kellett volna, illetve meg egyszerubben. ...de hogy ezekre magamtol ma miert nem jovok ra....?
-
-int lineCount = fileContents.Length; //Lehet, hogy kicsit felesleges (nagyon), de igy majd nem azon gondolkodom minden alkalommal amikor kell, hogy hogy is kell megtudnom az elemszamot.
-
-
+int lineCount = fileContents.Length; 
 
 //Most kivadaszom a sorokbol a 4 szamot
 string lineFirstPart(int lineID)
@@ -62,24 +46,35 @@ int fourthNumberInLine(int lineID)
 
 //Itt meg kiszamolom a 2 range-et es megszamolom az atfedeseket
 int pairsWithCompleteOverlap = 0;
-for (int line = 0; line < lineCount; line++) //Persze nem emlekeztem a lineCount nevere igy igazan sokat nem ert..
+for (int line = 0; line < lineCount; line++) 
 {
-    /*bool markerOfFind = false;
-    for (int itemInFirstRangeOfLine = firstNumberInLine(line); itemInFirstRangeOfLine < secondNumberInLine(line) + 1; itemInFirstRangeOfLine++) //Na, itt nem volt igaz, amit mondtal, hogy mindig siman kisebbet kell irni. Itt kellett +1, de probalmtam elobb != meg !>, ha egyaltalan van ilyen jel...
-    {
-        //Nagyon szarul sikerult az elnevezes, vegtelen hosszuak a sorok, olvashatatlan, es nem is tudom, mi micsoda. De hogy lehet jobban???
-        //Console.WriteLine(itemInFirstRangeOfLine);
-        for (int itemInSecondRangeOfLine = thirdNumberInLine(line); itemInSecondRangeOfLine < fourthNumberInLine(line) + 1; itemInSecondRangeOfLine++)
-        {
-            if (itemInFirstRangeOfLine)
-        }
-
-    }*/
-
     if (thirdNumberInLine(line) >= firstNumberInLine(line) && fourthNumberInLine(line) <= secondNumberInLine(line)) pairsWithCompleteOverlap++;
-    else if (firstNumberInLine(line) >= thirdNumberInLine(line) && secondNumberInLine(line) <= fourthNumberInLine(line)) pairsWithCompleteOverlap++; //Ezt istentelen nehez volt osszesakkozni fejben (illetve papir segedlettel)
-
-    Console.WriteLine(line + "   " + pairsWithCompleteOverlap);
+    else if (firstNumberInLine(line) >= thirdNumberInLine(line) && secondNumberInLine(line) <= fourthNumberInLine(line)) pairsWithCompleteOverlap++; 
 }
 
-Console.WriteLine("Overlaps:"+pairsWithCompleteOverlap);
+Console.WriteLine("Complete overlaps:"+pairsWithCompleteOverlap);
+
+int pairsWithAnyOverlap = 0;
+for (int line = 0; line < lineCount; line++) 
+{
+    if (thirdNumberInLine(line) >= firstNumberInLine(line) && thirdNumberInLine(line) <= secondNumberInLine(line)) pairsWithAnyOverlap++;
+    else if (fourthNumberInLine(line) >= firstNumberInLine(line) && fourthNumberInLine(line) <= secondNumberInLine(line)) pairsWithAnyOverlap++;
+    else if (fourthNumberInLine(line) >= firstNumberInLine(line) && thirdNumberInLine(line) <= secondNumberInLine(line)) pairsWithAnyOverlap++;
+
+    //Na, először rossz eredmény lett (csak 2 sor if volt, nem 3. Pedig azt a kettőt is vért izzadva számpárokat papírra írkálva és fejben végigküzdve, hogy mi mekkora írtam,
+    //s persze nem értettem, hogy miért nem találja meg az összes átfedést. Szerintem egy órát biztos ültem rajta és írtam fel mindenféle számpárokat, mire találtam egyet, amire egyik
+    //sem teljesült és akkor arra külön írtam egy harmadik sort. Így jó lett, de ez full trial and error, valószínű csak véletlen, hogy épp ez a 3 sor magában foglalja az összes 
+    //átfedést. Semmiféle empirikus módszert nem tudok kitalálni, hogy miképpen írhatnék egy tesztet, ami felszedi az összeset és be is tudom mutatni, hogy miért fogja mindet megtalálni.
+    //Persze, úgy lehetett volna még kőbunkóbb módon csinálni, hogy fizikailag kiírom az összes elemét a számpároknak és egyenként végigmegyek rajtuk, hogy van-e köztük egyforma. 
+    //Azonban azt tanítottad, hogy ne pazaroljam az erőforrásokat, márpedig az nagyon sokszor ennyi munka lett volna (minden számpárhoz, nem is csak elfpárhoz) létre kellett volna hozni
+    //egy új tömböt, egy ciklussan feltölteni, aztán egy másik ciklussal végigmenni az elsőn és belső ciklussal a másodikon. Azt látom, hogy az nagyságrendekkel tovább tartana. 
+    //Viszont, akkor tudnám garantálni, hogy a megoldás jó, és minden esetben megtalálminden átfedést. A jelen megoldás valószínű jól működik, de nem lehetek benne biztos, hogy ez minden
+    //esetben igaz, és csak a véletlen műve, hogy ha egyáltalán működik. ....ráadásul ezt megírni... ...szó szerint fájt már a fejem és csillagokat láttam a számpoárokat írva és 
+    //összehasonlítva. Nagyon sokáig tartott. ...még a sokkal lassabb megoldást össze lehetett volna rakni kb gondolkodás nélkül és el is készül töredék ennyi idő alatt annak ellenére,
+    //hogy az nem 3 sor, hanem sokkal több. 
+
+    //Console.WriteLine(line + "   " + pairsWithAnyOverlap);
+}
+
+Console.WriteLine("Any overlaps:" + pairsWithAnyOverlap);
+
