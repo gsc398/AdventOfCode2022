@@ -33,7 +33,7 @@ int CalculatePrioritySums(string itemList)
 }
 
 Console.WriteLine("Sum priority = " + CalculatePrioritySums(repeatedItemList));
-
+ 
 string badgeList = "";
 for (int groupOfThree = 0; groupOfThree < (MyAccessor.NumberOfBackpacks - 2); groupOfThree += 3)
 {
@@ -49,6 +49,7 @@ for (int groupOfThree = 0; groupOfThree < (MyAccessor.NumberOfBackpacks - 2); gr
 
 Console.WriteLine("Badges: " + badgeList);
 Console.WriteLine("Sum of badge priorities: "+ CalculatePrioritySums(badgeList));
+Console.WriteLine("Sum of badge priorities: " + CalculatePrioritySums(badgeList));
 
 
 //File.ReadLines().ElementAt(0);
