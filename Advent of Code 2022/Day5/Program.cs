@@ -54,7 +54,7 @@ nrOfStacksTemporaryString = nrOfStacksTemporaryString.Replace((char)0, ' ');
 nrOfStacksTemporaryString = nrOfStacksTemporaryString.Trim();
 int nrOfStacks = (int) Int64.Parse(nrOfStacksTemporaryString);
 Console.WriteLine("Number of Stacks:" + nrOfStacks.ToString());
-//Hogy ezzel a par sorral mennyit szivtam!? 
+//Hogy ezzel a par sorral mennyit szivtam!?  (Es sokkal kesobb kiderult, hogy nem is lett jo!) (Nem, nem is errol derult ki, hogy nem jo, csak kb arra is keptelenseg rajonni mar, hogy mi mit csinal. ...most kereshetem, mi csinalja azt, amit azt hitem ez csinal....)
 
 stacks.RemoveAt(stacks.Count - 1); //Kivettem a listabol az utolso sort, ami nem stack-ot abrazol
 
@@ -71,7 +71,7 @@ List<char>[] stackList = new List<char>[nrOfStacks];
 for (int n=0; n < nrOfStacks; n++)
 { stackList[n] = new List<char>(); }
 
-foreach (string line in stacks)
+/*foreach (string line in stacks)
 {
     for (int selectedStack = 0; selectedStack < nrOfStacks; selectedStack++)
     {
@@ -84,7 +84,23 @@ foreach (string line in stacks)
         }
         
     }
+}*/  //Na, ez a resz volt a teljesen hibas. Fejjel lefele olvassa be a dobozokat. Illetve jol allnak vegul, de az indexuk fejjel lefele van. 
+
+foreach (string line in stacks) //Most meg kell probalni ujrairni
+{
+    for (int selectedStack = 0; selectedStack < nrOfStacks; selectedStack++)
+    {
+        if ((1 + (4 * selectedStack)) <= (line.Length - 1))
+        {
+            if (line[1 + (4 * selectedStack)] != ' ') //Megadja (remelem) a kovetkezo poziciot olvasasra
+            {
+                stackList[selectedStack].Add(line[1 + (4 * selectedStack)]);
+            }
+        }
+
+    }
 }
+
 
 //Ellenorzes
 //Megnéztem a debuggerben a változók tartalmár és jó.
@@ -95,6 +111,7 @@ var DataProcessor = new CrateMover(instructions);
 
 for (int position = 0; position < DataProcessor.Count(); position++) //Vegrehajtom a dobozmozgatasokat
 {
+    bool a = DataProcessor.DisplayStacks(stackList); //Debug call
     for (int moveCounter = 0; moveCounter < DataProcessor.NumberToMove(position); moveCounter++)
     {
         stackList[DataProcessor.NextDestinationStack(position)-1].Add(stackList[DataProcessor.NextSourceStack(position)-1].Last()); //Beteszem a dobozt az uj helyere
@@ -114,6 +131,6 @@ foreach (List<char> x in stackList)
     resultLine.Append(stackList[counter].Last().ToString());
     counter++;
 }
-Console.WriteLine(resultLine.ToString());
+//Console.WriteLine(resultLine.ToString());
 
 

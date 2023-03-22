@@ -83,5 +83,33 @@ namespace Day5
             return (int)Int16.Parse(numberAsString.ToString());
         }
 
+        public bool DisplayStacks(List<char>[] stackList) //Ez a fuggveny csak arra van, hogy segitsen debugolni, megmutassa egyesevel a lepeseket mozgatas kozben, mert bonyolult maskent latni
+        {
+            int longestStack = 0;
+            foreach(List<char> stack in stackList) 
+            {
+                if (stack.Count > longestStack) { longestStack = stack.Count; }
+            }
+
+            var lineToDisplay = new StringBuilder();
+            for (int line = 0; line < longestStack; line++)
+            {
+                lineToDisplay.Clear();
+                foreach(List<char> stack in stackList)
+                {
+                    if(stack.Count()>line)
+                    {
+                        lineToDisplay.Append(stack[line].ToString());
+                    }
+                    else
+                    {
+                        lineToDisplay.Append(' ');
+                    }
+                }
+                Console.WriteLine(lineToDisplay.ToString());
+            }
+            Console.WriteLine(" ");
+            return true;
+        }
     }
 }
