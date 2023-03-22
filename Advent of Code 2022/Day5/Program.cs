@@ -3,8 +3,9 @@
 //Split the input file into 2 sets of lines with the logically different content (stacks and instructions)
 using Day5;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 
-var fileContents = File.ReadAllLines("input.txt");
+var fileContents = File.ReadAllLines("ex.txt");
 List<string> stacks = new List<string>();
 List<string> instructions = new List<string>();
 bool emptyLineReached =false;
@@ -92,20 +93,27 @@ foreach (string line in stacks)
 
 var DataProcessor = new CrateMover(instructions);
 
-//int nextSourceStack;
-//int nextDestinationStack;
-//int numberToMove;
-
-for (int position = 0; position < DataProcessor.Count(); position++)
+for (int position = 0; position < DataProcessor.Count(); position++) //Vegrehajtom a dobozmozgatasokat
 {
     for (int moveCounter = 0; moveCounter < DataProcessor.NumberToMove(position); moveCounter++)
     {
-        //nextDestinationStack = DataProcessor.NextDestinationStack(position);
-        //nextSourceStack = DataProcessor.NextSourceStack(position);
-        Console.WriteLine(DataProcessor.NumberToMove(position).ToString() + " " + DataProcessor.NextSourceStack(position).ToString() + " " + DataProcessor.NextDestinationStack(position).ToString());
+        stackList[DataProcessor.NextDestinationStack(position)-1].Add(stackList[DataProcessor.NextSourceStack(position)-1].Last()); //Beteszem a dobozt az uj helyere
+        stackList[DataProcessor.NextSourceStack(position)-1].RemoveAt(stackList[DataProcessor.NextSourceStack(position) - 1].Count - 1); //Elveszem a dobozt a regi helyerol
     }
+    // Ellenorzes passed: Console.WriteLine(DataProcessor.NumberToMove(position).ToString() + " " + DataProcessor.NextSourceStack(position).ToString() + " " + DataProcessor.NextDestinationStack(position).ToString());
     // Ellenorzes: Passed // Console.WriteLine(DataProcessor.NumberToMove(position).ToString() ...... ilyesmi.
-    
 
+    
 }
+
+//Kiirom a vegso allapotban a felso dobozokat
+var resultLine = new StringBuilder();
+int counter = 0;
+foreach (List<char> x in stackList)
+{
+    resultLine.Append(stackList[counter].Last().ToString());
+    counter++;
+}
+Console.WriteLine(resultLine.ToString());
+
 

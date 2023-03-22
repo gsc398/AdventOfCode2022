@@ -46,14 +46,14 @@ namespace Day5
             stringPosition = stringPosition + this.NextSourceStack(position).ToString().Length + 4; //...es ez az elozo alapjan eljuttat at utolso adatmezohoz
             while (true)
             {
+                if (stringPosition == currentLine.Length) { break; }
                 numberAsString.Append(currentLine[stringPosition]);
                 stringPosition++;
-                if (stringPosition == currentLine.Length - 1) { break; }
             }
             return (int)Int16.Parse(numberAsString.ToString());
         }
 
-        public int NumberToMove(int position)
+        /*public int NumberToMove(int position)
         {
             string currentLine = instructionsInClass[position];
             var numberAsString = new StringBuilder();
@@ -67,6 +67,21 @@ namespace Day5
 
             } 
 ,           return (int)Int16.Parse(numberAsString.ToString());
+        }*/
+
+        public int NumberToMove(int position) 
+        { 
+            string currentLine = instructionsInClass[position];
+            var numberAsString = new StringBuilder();
+            int stringPosition = 5;
+            while (true)
+            {
+                numberAsString.Append(currentLine[stringPosition]);
+                stringPosition++;
+                if (currentLine[stringPosition] == ' ') { break; }
+            }
+            return (int)Int16.Parse(numberAsString.ToString());
         }
+
     }
 }
